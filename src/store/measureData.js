@@ -5,7 +5,8 @@ const measureData = {
    state: {
       data: Object,
       from: null,
-      to: null
+      to: null,
+      last: Object
    },
    getters: {
       getMeasureDataList(state) {
@@ -18,6 +19,10 @@ const measureData = {
 
       getTo(state) {
          return state.to
+      },
+
+      getLastData(state) {
+         return state.last
       }
    },
    mutations: {
@@ -25,10 +30,12 @@ const measureData = {
          var labels = []
          var datasets = []
 
+         console.log(data.data);
          var dataList = data.data.reverse()
 
          if (dataList.length == 0) return
-         let datas = dataList[0].data.split(',')
+         let datas = dataList[dataList.length-1].data.split(',')
+         state.last = datas
          let count = datas.length
 
          for(let i = 0; i < count; i++) {

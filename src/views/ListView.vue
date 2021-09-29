@@ -11,7 +11,6 @@
             <td>{{ item.id }}</td>
             <td>{{ item.modelName }}</td>
          </tr> 
-
       </table>
    </div>
 </template>

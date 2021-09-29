@@ -1,6 +1,17 @@
 <template>
 <div>
+  <table>
+    <tr>
+      <th>CH</th>
+      <th>Data</th>
+    </tr>
+    <tr v-for="(data, index) in getLastData" :key="data">
+      <td>CH{{ index + 1 }}</td>
+      <td>{{ data }}</td>
+    </tr> 
+  </table>
   <select-period 
+  class="hide"
     :from="getFrom"
     :to="getTo"
     @set-from="setFrom"
@@ -8,7 +19,7 @@
     @submit-click="submit"
   ></select-period>
   <div>
-    <line-chart :data="getDataList" @reload-icon-click="updateDataList"/>
+    <line-chart class="hide" :data="getDataList" @reload-icon-click="updateDataList"/>
   </div>
 </div>
 </template>
@@ -33,6 +44,7 @@ export default {
     const getDataList = computed(() => store.getters[`${measureData}/getMeasureDataList`])
     const getFrom = computed(() => store.getters[`${measureData}/getFrom`])
     const getTo = computed(() => store.getters[`${measureData}/getTo`])
+    const getLastData = computed(() => store.getters[`${measureData}/getLastData`])
 
     const updateDataList = () => {
       store.dispatch(`${measureData}/actionMeasureDataList`, route.params.id)
@@ -59,6 +71,7 @@ export default {
       getDataList,
       getFrom,
       getTo,
+      getLastData,
       setFrom,
       setTo,
       submit
@@ -68,5 +81,25 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/index.css'
+@import '../assets/css/index.css';
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.hide {
+    visibility: hidden !important;
+}
 </style>
