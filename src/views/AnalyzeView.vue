@@ -3,9 +3,11 @@
   <div class="jb-table">
     <div class="jb-table-row" v-for="datas in getLastData" :key="datas">
       <div class="jb-table-cell jb-middle" v-for="data in datas.datas" :key="data">
-        <p class="ch-label">{{data.name}}</p>
+        <div style="height: 25px; display: flex; justify-content: space-between; align-items:center;">
+          <p class="ch-label">{{data.name}}</p>
+          <p class="ch-unit">(unit)</p>
+        </div>
         <p class="ch-data">{{data.data}}</p>
-        <p class="ch-unit">(unit)</p>
       </div>
     </div>
   </div>
@@ -136,11 +138,12 @@ div {
   padding: 0px;
   position: relative;
   font-size: 12px;
-  top: -2px;
-  left: 7px;
+  top: 0px;
+  left: 6px;
 }
 
 .ch-data {
+  height: 75px;
   margin: 0px;
   padding: 0px;
   text-align: center;
@@ -148,15 +151,12 @@ div {
 }
 
 .ch-unit {
-  float: right;
   margin: 0px;
   padding: 0px;
   position: relative;
   font-size: 12px;
-  top: 3px;
-  right: 4px;
-  /* top: -14px;
-  left: 7px; */
+  top: 0px;
+  right: 6px;
 }
 /* test end */
 </style>
