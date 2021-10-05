@@ -1,6 +1,6 @@
 <template>
 <div>
-  <channel-text-table :lastData="getLastData"/>
+  <channel-text-table :data="getLastData"/>
 
   <!-- <select-period 
   class="hide"

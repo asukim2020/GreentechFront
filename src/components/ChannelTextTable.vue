@@ -17,9 +17,18 @@ import { computed } from 'vue'
 
 export default {
    name: 'LineChart',
+   props: {
+      data: {
+         datas: {
+            name: String,
+            data: String
+         },
+      }
+   },
+
    setup(props) {
       const lastData = computed({
-         get: () => props.lastData,
+         get: () => props.data,
       })
 
       return {
