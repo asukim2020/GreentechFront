@@ -6,7 +6,8 @@ const measureData = {
       data: Object,
       from: null,
       to: null,
-      last: Object
+      last: Object,
+      count: 2
    },
    getters: {
       getMeasureDataList(state) {
@@ -30,12 +31,37 @@ const measureData = {
          var labels = []
          var datasets = []
 
-         console.log(data.data);
+         // console.log(data.data);
          var dataList = data.data.reverse()
 
          if (dataList.length == 0) return
          let datas = dataList[dataList.length-1].data.split(',')
-         state.last = datas
+
+         let lastDataList = []
+         var saveDataList = []
+         for(let i=0; i<datas.length; i++) {
+
+            saveDataList.push({
+               name: `CH${i+1}`,
+               data: datas[i]
+            })
+
+            if(i % state.count == state.count - 1) {
+               lastDataList.push({
+                  datas: saveDataList
+               })
+               saveDataList = []
+            }
+         }
+
+         if (saveDataList.length > 0) {
+            lastDataList.push({
+               datas: saveDataList
+            })
+            saveDataList = []
+         }
+
+         state.last = lastDataList
          let count = datas.length
 
          for(let i = 0; i < count; i++) {

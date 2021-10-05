@@ -1,20 +1,11 @@
 <template>
 <div>
-  <!-- <table>
-    <tr>
-      <th>CH</th>
-      <th>Data</th>
-    </tr>
-    <tr v-for="(data, index) in getLastData" :key="data">
-      <td>CH{{ index + 1 }}</td>
-      <td>{{ data }}</td>
-    </tr> 
-  </table> -->
   <div class="jb-table">
-    <div class="jb-table-row" v-for="(data, index) in getLastData" :key="data">
-      <div class="jb-table-cell jb-middle">
-        <p class="ch-label">CH{{index + 1}}</p>
-        <p class="ch-data">{{data}}</p>
+    <div class="jb-table-row" v-for="datas in getLastData" :key="datas">
+      <div class="jb-table-cell jb-middle" v-for="data in datas.datas" :key="data">
+        <p class="ch-label">{{data.name}}</p>
+        <p class="ch-data">{{data.data}}</p>
+        <p class="ch-unit">(unit)</p>
       </div>
     </div>
   </div>
@@ -118,7 +109,7 @@ div {
 }
 .jb-table {
   border-collapse:separate; 
-  border-spacing: 1rem 1rem;
+  border-spacing: 0.5rem 0.5rem;
   display: table;
   width: 100%;
 }
@@ -145,7 +136,7 @@ div {
   padding: 0px;
   position: relative;
   font-size: 12px;
-  top: -14px;
+  top: -2px;
   left: 7px;
 }
 
@@ -153,7 +144,19 @@ div {
   margin: 0px;
   padding: 0px;
   text-align: center;
-  font-size: 40px;
+  font-size: 50px;
+}
+
+.ch-unit {
+  float: right;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  font-size: 12px;
+  top: 3px;
+  right: 4px;
+  /* top: -14px;
+  left: 7px; */
 }
 /* test end */
 </style>
