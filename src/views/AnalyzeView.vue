@@ -1,6 +1,6 @@
 <template>
 <div>
-  <table>
+  <!-- <table>
     <tr>
       <th>CH</th>
       <th>Data</th>
@@ -9,8 +9,17 @@
       <td>CH{{ index + 1 }}</td>
       <td>{{ data }}</td>
     </tr> 
-  </table>
-  <select-period 
+  </table> -->
+  <div class="jb-table">
+    <div class="jb-table-row" v-for="(data, index) in getLastData" :key="data">
+      <div class="jb-table-cell jb-middle">
+        <p class="ch-label">CH{{index + 1}}</p>
+        <p class="ch-data">{{data}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- <select-period 
   class="hide"
     :from="getFrom"
     :to="getTo"
@@ -20,13 +29,13 @@
   ></select-period>
   <div>
     <line-chart class="hide" :data="getDataList" @reload-icon-click="updateDataList"/>
-  </div>
+  </div> -->
 </div>
 </template>
 
 <script>
-import LineChart from '../components/Charts/LineChart'
-import SelectPeriod from '../components/SelectPeriod.vue'
+// import LineChart from '../components/Charts/LineChart'
+// import SelectPeriod from '../components/SelectPeriod.vue'
 import { onMounted, computed } from 'vue'
 import { useStore } from "vuex"
 import { useRoute } from 'vue-router'
@@ -34,8 +43,8 @@ const measureData = 'measureData'
 
 export default {
   components: {
-    LineChart,
-    SelectPeriod
+    // LineChart,
+    // SelectPeriod
   },
   setup () {
     const store = useStore()
@@ -102,4 +111,49 @@ tr:nth-child(even) {
 .hide {
     visibility: hidden !important;
 }
+
+/* test start */
+div {
+  /* border: 1px solid #dddddd; */
+}
+.jb-table {
+  border-collapse:separate; 
+  border-spacing: 1rem 1rem;
+  display: table;
+  width: 100%;
+}
+.jb-table-row {
+  display: table-row;
+}
+.jb-table-cell {
+  display: table-cell;
+  height: 100px;
+  /* padding: 0px 20px; */
+  border: 2px solid #dddddd;
+}
+.jb-top {
+  vertical-align: top;
+}
+.jb-middle {
+  vertical-align: middle;
+}
+.jb-bottom {
+  vertical-align: bottom;
+}
+.ch-label {
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  font-size: 12px;
+  top: -14px;
+  left: 7px;
+}
+
+.ch-data {
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  font-size: 40px;
+}
+/* test end */
 </style>
