@@ -1,16 +1,6 @@
 <template>
 <div>
-  <div class="jb-table">
-    <div class="jb-table-row" v-for="datas in getLastData" :key="datas">
-      <div class="jb-table-cell" v-for="data in datas.datas" :key="data">
-        <div class="ch-div">
-          <p class="ch-label">{{data.name}}</p>
-          <p class="ch-unit">(unit)</p>
-        </div>
-        <p class="ch-data">{{data.data}}</p>
-      </div>
-    </div>
-  </div>
+  <channel-text-table :lastData="getLastData"/>
 
   <!-- <select-period 
   class="hide"
@@ -23,12 +13,14 @@
   <div>
     <line-chart class="hide" :data="getDataList" @reload-icon-click="updateDataList"/>
   </div> -->
+  
 </div>
 </template>
 
 <script>
 // import LineChart from '../components/Charts/LineChart'
 // import SelectPeriod from '../components/SelectPeriod.vue'
+import ChannelTextTable from '../components/ChannelTextTable.vue'
 import { onMounted, computed } from 'vue'
 import { useStore } from "vuex"
 import { useRoute } from 'vue-router'
@@ -37,7 +29,8 @@ const measureData = 'measureData'
 export default {
   components: {
     // LineChart,
-    // SelectPeriod
+    // SelectPeriod,
+    ChannelTextTable
   },
   setup () {
     const store = useStore()
@@ -87,53 +80,5 @@ export default {
 
 .hide {
     visibility: hidden !important;
-}
-
-.jb-table {
-  border-collapse:separate; 
-  border-spacing: 0.5rem 0.5rem;
-  display: table;
-  width: 100%;
-}
-.jb-table-row {
-  display: table-row;
-}
-.jb-table-cell {
-  display: table-cell;
-  height: 100px;
-  border: 2px solid #dddddd;
-}
-
-.ch-div {
-  height: 25px; 
-  display: flex; 
-  justify-content: space-between; 
-  align-items:center;
-}
-
-.ch-label {
-  margin: 0px;
-  padding: 0px;
-  position: relative;
-  font-size: 12px;
-  top: 0px;
-  left: 6px;
-}
-
-.ch-unit {
-  margin: 0px;
-  padding: 0px;
-  position: relative;
-  font-size: 12px;
-  top: 0px;
-  right: 6px;
-}
-
-.ch-data {
-  height: 75px;
-  margin: 0px;
-  padding: 0px;
-  text-align: center;
-  font-size: 50px;
 }
 </style>
