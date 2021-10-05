@@ -2,8 +2,8 @@
 <div>
   <div class="jb-table">
     <div class="jb-table-row" v-for="datas in getLastData" :key="datas">
-      <div class="jb-table-cell jb-middle" v-for="data in datas.datas" :key="data">
-        <div style="height: 25px; display: flex; justify-content: space-between; align-items:center;">
+      <div class="jb-table-cell" v-for="data in datas.datas" :key="data">
+        <div class="ch-div">
           <p class="ch-label">{{data.name}}</p>
           <p class="ch-unit">(unit)</p>
         </div>
@@ -85,30 +85,10 @@ export default {
 <style scoped>
 @import '../assets/css/index.css';
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
 .hide {
     visibility: hidden !important;
 }
 
-/* test start */
-div {
-  /* border: 1px solid #dddddd; */
-}
 .jb-table {
   border-collapse:separate; 
   border-spacing: 0.5rem 0.5rem;
@@ -121,18 +101,16 @@ div {
 .jb-table-cell {
   display: table-cell;
   height: 100px;
-  /* padding: 0px 20px; */
   border: 2px solid #dddddd;
 }
-.jb-top {
-  vertical-align: top;
+
+.ch-div {
+  height: 25px; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items:center;
 }
-.jb-middle {
-  vertical-align: middle;
-}
-.jb-bottom {
-  vertical-align: bottom;
-}
+
 .ch-label {
   margin: 0px;
   padding: 0px;
@@ -140,14 +118,6 @@ div {
   font-size: 12px;
   top: 0px;
   left: 6px;
-}
-
-.ch-data {
-  height: 75px;
-  margin: 0px;
-  padding: 0px;
-  text-align: center;
-  font-size: 50px;
 }
 
 .ch-unit {
@@ -158,5 +128,12 @@ div {
   top: 0px;
   right: 6px;
 }
-/* test end */
+
+.ch-data {
+  height: 75px;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  font-size: 50px;
+}
 </style>
