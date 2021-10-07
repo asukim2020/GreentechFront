@@ -22,7 +22,6 @@ const company = {
    },
    actions: {
       actionLogin({commit}, params) {
-         console.log('actionLogin');
          return login(params.id, params.pw)
          .then(response => {
             commit('setCompanyId', response.data.companyId)

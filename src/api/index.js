@@ -31,8 +31,26 @@ function callApi(method, url, params, data) {
    })
 }
 
+// function errorHandle(error) {
+//     try {
+//       //  TODO:- 에러 코드 정리 할 것 - 인증  실패시 - 로그인화면으로 이동하는 기능 등 추가
+//       console.log(error)
+//       var errorStatus = error.response.status;
+
+//       if(errorStatus == '400') vue.$awn.alert(error.response.data);
+//       if(errorStatus == '401') vue.$awn.alert('인증에 실패했습니다.');
+//       if(errorStatus == '403') vue.$awn.alert('권한이 없습니다.');
+//       if(errorStatus == '500') vue.$awn.alert('서버에서 오류가 발생하였습니다.');
+      
+//       // var errorStatus = error.response.status;
+//       // if(errorStatus == '401')
+//       return error.response;
+//     } catch(err) {
+//       console.error('[_axios.interceptors.response] error : '+err.message);
+//     }
+// }
+
 function login(id, pw) {
-   console.log('login api');
    return axios({
       method: 'post',
       url: config.baseUrl + 'authenticate/login',
@@ -52,6 +70,15 @@ function getDataLoggers(companyId) {
          null,
          null
       )
+}
+
+function getDataLogger(dataLoggerId) {
+   return callApi(
+      'get',
+      `${config.baseUrl}dataLogger`,
+      {dataLoggerId},
+      null
+   )
 }
 
 function getMeasureDataList(dataLoggerId, from, to) {
@@ -119,5 +146,6 @@ const fillZero = (width, str) => {
 export {
    login,
    getDataLoggers,
+   getDataLogger,
    getMeasureDataList
 }

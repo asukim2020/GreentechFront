@@ -19,6 +19,7 @@
 import { onMounted, computed } from 'vue'
 import { useStore } from "vuex"
 import { useRouter, useRoute } from 'vue-router'
+import { authErrorHandle } from '../error'
 const dataLogger = 'dataLogger'
 
 export default {
@@ -30,7 +31,8 @@ export default {
       const getDataLoggerList = computed(() => store.getters[`${dataLogger}/getDataLoggerList`])
 
       const initDataLoggerList = () => {
-         store.dispatch(`${dataLogger}/actionDataLoggerList`, route.params.id)
+         let result = store.dispatch(`${dataLogger}/actionDataLoggerList`, route.params.id)
+         authErrorHandle(result, router)
       }
 
       const moveMeasurePage = (id) => {
@@ -57,13 +59,21 @@ table {
   width: 100%;
 }
 
-td, th {
-  border: 1px solid #dddddd;
+th {
+   font-weight: bold;
+   color: #fff;
+   background: #448AFF;
+   text-align: center;
+}
+
+td {
   text-align: left;
   padding: 8px;
+  text-align: center;
+  color: #424242;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #E3F2FD;
 }
 </style>

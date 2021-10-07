@@ -1,10 +1,12 @@
 <template>
    <div class="jb-table">
-    <div class="jb-table-row" v-for="datas in lastData" :key="datas">
-      <div class="jb-table-cell" v-for="data in datas.datas" :key="data">
+    <div class="jb-table-row" v-for="(datas, i) in lastData" :key="datas">
+      <div class="jb-table-cell" v-for="(data, j) in datas.datas" :key="data">
         <div class="ch-div">
           <p class="ch-label">{{data.name}}</p>
-          <p class="ch-unit">(unit)</p>
+          <!-- TODO: - 2를 넘겨받은 props로 변경 -->
+          <p class="ch-unit" v-if="unitList != null">{{unitList[cnt*i + j]}}</p>
+          <!-- <p class="ch-unit">{{i + j}}</p> -->
         </div>
         <p class="ch-data">{{data.data}}</p>
       </div>
@@ -18,12 +20,9 @@ import { computed } from 'vue'
 export default {
    name: 'LineChart',
    props: {
-      data: {
-         datas: {
-            name: String,
-            data: String
-         },
-      }
+      data: null,
+      unit: null,
+      count: null
    },
 
    setup(props) {
@@ -31,8 +30,18 @@ export default {
          get: () => props.data,
       })
 
+      const unitList = computed({
+        get: () => props.unit
+      })
+
+      const cnt = computed({
+        get: () => props.count
+      }) 
+
       return {
-         lastData
+         lastData,
+         unitList,
+         cnt
       }
    }
 }
@@ -41,7 +50,7 @@ export default {
 <style scoped>
 .jb-table {
   border-collapse:separate; 
-  border-spacing: 0.5rem 0.5rem;
+  border-spacing: 1rem 1rem;
   display: table;
   width: 100%;
 }
@@ -51,7 +60,7 @@ export default {
 .jb-table-cell {
   display: table-cell;
   height: 100px;
-  border: 2px solid #dddddd;
+  border: 2px solid #82B1FF;
 }
 
 .ch-div {
@@ -68,6 +77,7 @@ export default {
   font-size: 12px;
   top: 0px;
   left: 6px;
+  color: #448AFF;
 }
 
 .ch-unit {
@@ -77,6 +87,7 @@ export default {
   font-size: 12px;
   top: 0px;
   right: 6px;
+  color: #448AFF;
 }
 
 .ch-data {
@@ -85,5 +96,6 @@ export default {
   padding: 0px;
   text-align: center;
   font-size: 50px;
+  color: #2979FF;
 }
 </style>

@@ -63,7 +63,7 @@ body {
 .login-form {
    position: absolute;     
    width: 300px;
-   background-color: #EEEFF1;
+   background-color: #ECEFF1;
    top: 50%;
    left: 50%;
    padding: 20px;
@@ -86,7 +86,7 @@ body {
    border: none;
    padding: 10px;
    width: 260px;
-   background-color: #1BBC9B;
+   background-color: #448AFF;
    /* margin-bottom: 30px; */
    color: white;
 }

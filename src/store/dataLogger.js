@@ -3,23 +3,28 @@ import { getDataLoggers } from '../api'
 const dataLogger = {
    namespaced: true,
    state: {
-      list: []
+      list: [],
    },
    getters: {
       getDataLoggerList(state) {
          return state.list
-      }
+      },
    },
    mutations: {
       setDataLoggerList(state, list) {
          state.list = list
-      }
+      },
    },
    actions: {
-      actionDataLoggerList({commit}, companyId) {
-         return getDataLoggers(companyId)
-         .then(({ data }) => commit('setDataLoggerList', data))
-         .catch(e => console.log(e.response))
+      async actionDataLoggerList({commit}, companyId) {
+         try {
+            const response = await getDataLoggers(companyId)
+            commit('setDataLoggerList', response.data)
+            console.log(response.data);
+            return true
+         } catch (err) {
+            return err
+         }
       }
    }
 }

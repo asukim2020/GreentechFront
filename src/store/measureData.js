@@ -1,4 +1,4 @@
-import { getMeasureDataList } from '../api'
+import { getDataLogger, getMeasureDataList } from '../api'
 
 const measureData = {
    namespaced: true,
@@ -7,7 +7,8 @@ const measureData = {
       from: null,
       to: null,
       last: Object,
-      count: 2
+      count: 2,
+      dataLogger: null
    },
    getters: {
       getMeasureDataList(state) {
@@ -24,6 +25,17 @@ const measureData = {
 
       getLastData(state) {
          return state.last
+      },
+
+      getCount(state) {
+         return state.count
+      },
+
+      getUnitList(state) {
+         if (state.dataLogger == null) {
+            return null
+         }
+         return state.dataLogger.unit.split(',')
       }
    },
    mutations: {
@@ -93,12 +105,29 @@ const measureData = {
 
       setTo(state, to) {
          state.to = to
+      },
+
+      setDataLogger(state, dataLogger) {
+         state.dataLogger = dataLogger
       }
    },
    actions: {
-      actionMeasureDataList({commit, state}, dataLoggerId) {
-         return getMeasureDataList(dataLoggerId, state.from, state.to)
-            .then(({ data }) => commit('setMeasureDataList', data))
+      async actionMeasureDataList({commit, state}, dataLoggerId) {
+         try {
+            const response = await getMeasureDataList(dataLoggerId, state.from, state.to)
+            commit('setMeasureDataList', response.data)
+            return true
+         } catch (err) {
+            return err
+         }
+         // return getMeasureDataList(dataLoggerId, state.from, state.to)
+         //    .then(({ data }) => commit('setMeasureDataList', data))
+         //    .catch(e => console.log(e))
+      },
+
+      actionDataLogger({commit}, dataLoggerId) {
+         return getDataLogger(dataLoggerId)
+            .then(({ data }) => commit('setDataLogger', data))
             .catch(e => console.log(e))
       }
    }
