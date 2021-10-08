@@ -5,7 +5,7 @@
         <div class="ch-div">
           <p class="ch-label">{{data.name}}</p>
           <!-- TODO: - 2를 넘겨받은 props로 변경 -->
-          <p class="ch-unit" v-if="unitList != null">{{unitList[cnt*i + j]}}</p>
+          <p class="ch-unit" v-if="unitList.length > cnt*i + j">{{unitList[cnt*i + j]}}</p>
           <!-- <p class="ch-unit">{{i + j}}</p> -->
         </div>
         <p class="ch-data">{{data.data}}</p>
@@ -21,8 +21,8 @@ export default {
    name: 'LineChart',
    props: {
       data: null,
-      unit: null,
-      count: null
+      unit: [],
+      count: Number,
    },
 
    setup(props) {
@@ -41,7 +41,7 @@ export default {
       return {
          lastData,
          unitList,
-         cnt
+         cnt,
       }
    }
 }

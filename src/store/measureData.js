@@ -6,7 +6,8 @@ const measureData = {
       data: Object,
       from: null,
       to: null,
-      last: Object,
+      last: [],
+      lastTime: String,
       count: 2,
       dataLogger: null
    },
@@ -33,9 +34,16 @@ const measureData = {
 
       getUnitList(state) {
          if (state.dataLogger == null) {
-            return null
+            return []
+         }
+         if (state.dataLogger.unit == "") {
+            return []
          }
          return state.dataLogger.unit.split(',')
+      },
+
+      getLastDataTime(state) {
+         return state.lastTime
       }
    },
    mutations: {
@@ -48,7 +56,8 @@ const measureData = {
 
          if (dataList.length == 0) return
          let datas = dataList[dataList.length-1].data.split(',')
-
+         state.lastTime = mm_dd_hh_mm_ss(dataList[dataList.length-1].time)
+         
          let lastDataList = []
          var saveDataList = []
          for(let i=0; i<datas.length; i++) {
@@ -85,13 +94,7 @@ const measureData = {
             for(let j = 0; j < count; j++) {
                datasets[j].data.push(datas[j])
             }
-            const format = dataList[i].time
-            const date = new Date(format)
-            // const str = `${date.getFullYear()}-${date.getMonth() +1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
-            const min = fillZero(2, String(date.getMinutes()))
-            const sec = fillZero(2, String(date.getSeconds()))
-            const str = `${date.getMonth() +1}.${date.getDate()} ${date.getHours()}:${min}:${sec}`
-            labels.push(str)
+            labels.push(mm_dd_hh_mm_ss(dataList[i].time))
          }
          state.data = {
             labels: labels,
@@ -131,6 +134,15 @@ const measureData = {
             .catch(e => console.log(e))
       }
    }
+}
+
+const mm_dd_hh_mm_ss = (format) => {
+   const date = new Date(format)
+   // const str = `${date.getFullYear()}-${date.getMonth() +1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+   const min = fillZero(2, String(date.getMinutes()))
+   const sec = fillZero(2, String(date.getSeconds()))
+   const str = `${date.getMonth() +1}/${date.getDate()} ${date.getHours()}:${min}:${sec}`
+   return str
 }
 
 const fillZero = (width, str) => {
