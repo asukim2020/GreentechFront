@@ -3,6 +3,7 @@
   <channel-text-table 
   :data="getLastData"
   :unit="getUnitList"
+  :channel="getChannelNames"
   :count="getCount"/>
   <!-- <select-period 
   class="hide"
@@ -43,6 +44,7 @@ export default {
     const route = useRoute()
     
     const getUnitList = computed(() => store.getters[`${measureData}/getUnitList`])
+    const getChannelNames = computed(() => store.getters[`${measureData}/getChannelNames`])
     const getCount = computed(() => store.getters[`${measureData}/getCount`])
     const getDataList = computed(() => store.getters[`${measureData}/getMeasureDataList`])
     const getFrom = computed(() => store.getters[`${measureData}/getFrom`])
@@ -82,6 +84,7 @@ export default {
 
     return {
       getUnitList,
+      getChannelNames,
       getCount,
       updateDataList,
       refresh,

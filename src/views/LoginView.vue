@@ -29,15 +29,19 @@ export default {
       })
 
       const clickLogin = () => { 
+
          store.dispatch(`${company}/actionLogin`, user)
          .then(response => {
-            if (response !== undefined) {
+            if (typeof(response) == "number") {
                router.push(`/list/${response}`)
+            } else if (response.response) {
+               alert('아이디 또는 비밀번호가 일치하지 않습니다.')
+            } else if (response.request) {
+               alert('서버와 연결할 수 없습니다.')
             } else {
-               throw new Error('로그인 실패')
+               alert(response.message)
             }
          })
-         .catch(e => console.log(e))
       }
 
       return {

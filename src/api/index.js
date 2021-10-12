@@ -17,7 +17,7 @@ const config = {
 // });
 
 function callApi(method, url, params, data) {
-   console.log(`url: ${url}`);
+   // console.log(`url: ${url}`);
    let token = JSON.parse(localStorage.getItem('user'));
    const headers = {
       'Authorization': `Bearer ${token}`

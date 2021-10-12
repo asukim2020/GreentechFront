@@ -42,6 +42,16 @@ const measureData = {
          return state.dataLogger.unit.split(',')
       },
 
+      getChannelNames(state) {
+         if (state.dataLogger == null) {
+            return []
+         }
+         if (state.dataLogger.channelName == "") {
+            return []
+         }
+         return state.dataLogger.channelName.split(',')
+      },
+
       getLastDataTime(state) {
          return state.lastTime
       }

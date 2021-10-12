@@ -3,7 +3,8 @@
     <div class="jb-table-row" v-for="(datas, i) in lastData" :key="datas">
       <div class="jb-table-cell" v-for="(data, j) in datas.datas" :key="data">
         <div class="ch-div">
-          <p class="ch-label">{{data.name}}</p>
+          <p class="ch-label" v-if="channelNames.length > cnt*i + j">{{channelNames[cnt*i + j]}}</p>
+          <p class="ch-label" v-else>{{data.name}}</p>
           <!-- TODO: - 2를 넘겨받은 props로 변경 -->
           <p class="ch-unit" v-if="unitList.length > cnt*i + j">{{unitList[cnt*i + j]}}</p>
           <!-- <p class="ch-unit">{{i + j}}</p> -->
@@ -23,6 +24,7 @@ export default {
       data: null,
       unit: [],
       count: Number,
+      channel: []
    },
 
    setup(props) {
@@ -34,6 +36,10 @@ export default {
         get: () => props.unit
       })
 
+      const channelNames = computed({
+        get: () => props.channel
+      }) 
+
       const cnt = computed({
         get: () => props.count
       }) 
@@ -41,6 +47,7 @@ export default {
       return {
          lastData,
          unitList,
+         channelNames,
          cnt,
       }
    }
