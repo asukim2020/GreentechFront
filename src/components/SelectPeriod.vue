@@ -1,19 +1,23 @@
 <template>
-<div class="root">
-   <datepicker
-      class="picker"
-      v-model="fromValue"
-      placeholder="from"
-   ></datepicker>
+   <div class="root">
+      <div></div>
+      <div>
+         <datepicker
+            class="picker"
+            v-model="fromValue"
+            placeholder="from"
+         ></datepicker>
 
-   <datepicker
-      class="picker"
-      v-model="toValue"
-      placeholder="to"
-   ></datepicker>
+         <datepicker
+            class="picker"
+            v-model="toValue"
+            placeholder="to"
+         ></datepicker>
 
-   <button v-on:click.prevent="submit">submit</button>
-</div>
+         <button class="submit" v-on:click.prevent="submit">submit</button>
+      </div>
+      <div></div>
+   </div>
 </template>
 
 <script>
@@ -62,10 +66,17 @@ export default {
 .root {
    /* display: flex; */
    padding: 1rem;
-   text-align: center; 
+   text-align: center;
+   display: flex; 
+   justify-content: space-between; 
+   align-items:center;
 }
 .picker {
   color: #3c4a5a;
+}
+
+.submit {
+   width: 100%;
 }
 
 </style>

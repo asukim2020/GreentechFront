@@ -1,7 +1,6 @@
 <template>
   <div>
       <select-period 
-      class="hide"
       :from="getFrom"
       :to="getTo"
       @set-from="setFrom"
@@ -9,10 +8,10 @@
       @submit-click="submit"
       ></select-period>
       <div>
-         <line-chart class="hide" :data="getDataList" @reload-icon-click="updateDataList"/>
+         <line-chart :data="getDataList" @reload-icon-click="updateDataList"/>
       </div>
 
-      <table>
+      <table class="card">
          <tr>
            <th></th>
            <th v-for="dataset in getDataList.datasets" :key="dataset.label">
@@ -87,11 +86,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 table {
-  font-family: arial, sans-serif;
+  margin: 1rem 0px;
   border-collapse: collapse;
-  width: 100%;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 th {
@@ -111,7 +112,7 @@ td {
 tr:nth-child(even) {
   background-color: #E3F2FD;
 }
-.hide {
-    /* visibility: hidden !important; */
-}
+/* .hide {
+    visibility: hidden !important;
+} */
 </style>
