@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import ListView from '../views/ListView.vue'
 import AnalyzeView from '../views/AnalyzeView.vue'
+import GraphView from '../views/GraphView.vue'
 
 const routes = [
    {
@@ -23,6 +24,11 @@ const routes = [
       path: '/analyze/:id',
       name: 'analyze',
       component: AnalyzeView
+   },
+   {
+      path: '/graph/:id',
+      name: 'graph',
+      component: GraphView
    }
 ]
 

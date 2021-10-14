@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="root">
    <datepicker
       class="picker"
       v-model="fromValue"
@@ -59,8 +59,10 @@ export default {
 </script>
 
 <style scoped>
-div {
-   display: flex;
+.root {
+   /* display: flex; */
+   padding: 1rem;
+   text-align: center; 
 }
 .picker {
   color: #3c4a5a;

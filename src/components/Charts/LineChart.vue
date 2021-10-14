@@ -6,7 +6,9 @@
         <i class="fas fa-redo-alt"></i>
       </span>
     </div>
-    <canvas class="card chart" ref="canvas" />
+    <div style="height: 17.5rem">
+      <canvas class="card chart" ref="canvas" />
+    </div>
   </div>
 </template>
 
@@ -114,6 +116,9 @@ export default {
     })
 
     const reloadIconClick = () => {
+      for (let i=0; i<chart.data.datasets.length; i++) {
+        chart.data.datasets[i].hidden = !chart.isDatasetVisible(i)
+      }
       emit('reload-icon-click')
     }
 
@@ -130,6 +135,7 @@ export default {
   margin: auto;
   height: 20rem;
   width: 95%;
+  overflow: auto;
 }
 .header {
   padding: 0px;

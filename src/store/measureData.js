@@ -61,7 +61,6 @@ const measureData = {
          var labels = []
          var datasets = []
 
-         // console.log(data.data);
          var dataList = data.data.reverse()
 
          if (dataList.length == 0) return
@@ -96,7 +95,11 @@ const measureData = {
          let count = datas.length
 
          for(let i = 0; i < count; i++) {
-            datasets.push(datasetObject(i, []))
+            var dataset = null
+            if (state.data.datasets.length > 0) {
+               dataset = state.data.datasets[i]
+            }
+            datasets.push(datasetObject(i, [], dataset))
          }
 
          for (let i = 0; i < dataList.length; i++) {
@@ -133,9 +136,6 @@ const measureData = {
          } catch (err) {
             return err
          }
-         // return getMeasureDataList(dataLoggerId, state.from, state.to)
-         //    .then(({ data }) => commit('setMeasureDataList', data))
-         //    .catch(e => console.log(e))
       },
 
       actionDataLogger({commit}, dataLoggerId) {
@@ -160,11 +160,21 @@ const fillZero = (width, str) => {
 }
 
 const chartColors = [
-   '#00D1B2', '#209CEE', '#FF3860'
+   '#00D1B2', 
+   '#209CEE', 
+   '#FF3860', 
+   '#7E57C2', 
+   '#FFEB3B', 
+   
+   '#FF9800', 
+   '#00BCD4', 
+   '#9E9E9E',
+   '#795548',
+   '#3F51B5'
 ]
 
-const datasetObject = (color, datas) => {
-   return {
+const datasetObject = (color, datas, dataset) => {
+   let data = {
       label: `CH${color+1}`,
       fill: false,
       borderColor: chartColors[color],
@@ -179,9 +189,15 @@ const datasetObject = (color, datas) => {
       pointHoverBorderWidth: 15,
       pointRadius: 4,
       data: datas,
+      hidden: false,
    //  tension: 0.5,
    //  cubicInterpolationMode: 'default'
    }
+
+   if (dataset != null) {
+      data.hidden = dataset.hidden
+   }
+   return data
 }
 
 
