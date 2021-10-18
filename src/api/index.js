@@ -135,7 +135,7 @@ const dateToyyyyMMdd = (date) => {
    const milli = fillZero(3, String(date.getMilliseconds()))
    
    const dateString = `${year}-${month}-${day}T${hour}:${min}:${sec}.${milli}`
-   console.log(`date: ${dateString}`);
+   // console.log(`date: ${dateString}`);
    return dateString
 }
 

@@ -60,6 +60,7 @@ export default {
   border-spacing: 1rem 1rem;
   display: table;
   width: 100%;
+  table-layout: fixed;
 }
 .jb-table-row {
   display: table-row;

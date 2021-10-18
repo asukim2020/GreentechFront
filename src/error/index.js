@@ -3,7 +3,7 @@ function authErrorHandle(promise, router) {
    .then(response => {
       if (response.response) {
          if (response.response.status == 401) {
-            router.push("/")
+            router.replace("/")
             alert('로그인 후 일정 시간이 지나 자동 로그아웃되었습니다.')
          }
       }
