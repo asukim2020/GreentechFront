@@ -3,7 +3,7 @@
     <div class="jb-table-row" v-for="(datas, i) in lastData" :key="datas">
       <div class="jb-table-cell" v-for="(data, j) in datas.datas" :key="data">
         <div class="ch-div">
-          <p class="ch-label" v-if="channelNames.length > cnt*i + j">{{channelNames[cnt*i + j]}}</p>
+          <p class="ch-label" v-if="channelNames.length > cnt*i + j">{{applySpace(channelNames[cnt*i + j])}}</p>
           <p class="ch-label" v-else>{{data.name}}</p>
           <!-- TODO: - 2를 넘겨받은 props로 변경 -->
           <p class="ch-unit" v-if="unitList.length > cnt*i + j">{{unitList[cnt*i + j]}}</p>
@@ -44,11 +44,16 @@ export default {
         get: () => props.count
       }) 
 
+      const applySpace = (str) => {
+         return str.replaceAll(' ', '\xa0');
+      }
+
       return {
          lastData,
          unitList,
          channelNames,
          cnt,
+         applySpace
       }
    }
 }
