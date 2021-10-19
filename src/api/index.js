@@ -81,8 +81,21 @@ function getDataLogger(dataLoggerId) {
    )
 }
 
+function getLastDatas(dataLoggerId, count) {
+      const param = {
+         count
+      }
+
+      return callApi(
+         'get', 
+         `${config.baseUrl}measureData/last/${dataLoggerId}`, 
+         param,
+         null
+      )
+}
+
 function getMeasureDataList(dataLoggerId, from, to) {
-   if (from !== null, to !== null) {
+   if (from !== null && to !== null) {
       const param = {
             from: dateToyyyyMMdd(from),
             to: dateToyyyyMMdd(new Date(
@@ -100,26 +113,7 @@ function getMeasureDataList(dataLoggerId, from, to) {
       )
       
    } else {
-         let now = new Date()
-         const param = {
-            from: dateToyyyyMMdd(new Date(
-               now.getFullYear(),
-               now.getMonth(),
-               now.getDate(),
-               0,0,0,0)),
-            to: dateToyyyyMMdd(new Date(
-               now.getFullYear(),
-               now.getMonth(),
-               now.getDate(),
-               23,59,59,999))
-         }
-
-      return callApi(
-         'get', 
-         `${config.baseUrl}measureData/${dataLoggerId}`, 
-         param,
-         null
-      )
+         return getLastDatas(dataLoggerId, 10)
    }
 }
 
@@ -147,5 +141,6 @@ export {
    login,
    getDataLoggers,
    getDataLogger,
-   getMeasureDataList
+   getMeasureDataList,
+   getLastDatas
 }

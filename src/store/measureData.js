@@ -1,4 +1,5 @@
-import { getDataLogger, getMeasureDataList } from '../api'
+import { getDataLogger, getMeasureDataList, getLastDatas } from '../api'
+// import dataLogger from './dataLogger'
 
 const measureData = {
    namespaced: true,
@@ -65,33 +66,6 @@ const measureData = {
 
          if (dataList.length == 0) return
          let datas = dataList[dataList.length-1].data.split(',')
-         state.lastTime = mm_dd_hh_mm_ss(dataList[dataList.length-1].time)
-         
-         let lastDataList = []
-         var saveDataList = []
-         for(let i=0; i<datas.length; i++) {
-
-            saveDataList.push({
-               name: `CH${i+1}`,
-               data: datas[i]
-            })
-
-            if(i % state.count == state.count - 1) {
-               lastDataList.push({
-                  datas: saveDataList
-               })
-               saveDataList = []
-            }
-         }
-
-         if (saveDataList.length > 0) {
-            lastDataList.push({
-               datas: saveDataList
-            })
-            saveDataList = []
-         }
-
-         state.last = lastDataList
          let count = datas.length
 
          for(let i = 0; i < count; i++) {
@@ -125,6 +99,40 @@ const measureData = {
 
       setDataLogger(state, dataLogger) {
          state.dataLogger = dataLogger
+      },
+
+      setLast(state, data) {
+         var dataList = data.data.reverse()
+
+         if (dataList.length == 0) return
+         let datas = dataList[dataList.length-1].data.split(',')
+         state.lastTime = mm_dd_hh_mm_ss(dataList[dataList.length-1].time)
+         
+         let lastDataList = []
+         var saveDataList = []
+         for(let i=0; i<datas.length; i++) {
+
+            saveDataList.push({
+               name: `CH${i+1}`,
+               data: datas[i]
+            })
+
+            if(i % state.count == state.count - 1) {
+               lastDataList.push({
+                  datas: saveDataList
+               })
+               saveDataList = []
+            }
+         }
+
+         if (saveDataList.length > 0) {
+            lastDataList.push({
+               datas: saveDataList
+            })
+            saveDataList = []
+         }
+
+         state.last = lastDataList
       }
    },
    actions: {
@@ -142,6 +150,17 @@ const measureData = {
          return getDataLogger(dataLoggerId)
             .then(({ data }) => commit('setDataLogger', data))
             .catch(e => console.log(e))
+      },
+
+      async actionMeasureLastData({commit}, dataLoggerId) {
+         try {
+            console.log('actionMeasureLastData');
+            const response = await getLastDatas(dataLoggerId, 1)
+            commit('setLast', response.data)
+            return true
+         } catch (err) {
+            return err
+         }
       }
    }
 }
@@ -177,13 +196,13 @@ const datasetObject = (color, datas, dataset) => {
    let data = {
       label: `CH${color+1}`,
       fill: false,
-      borderColor: chartColors[color],
+      borderColor: chartColors[color % 10],
       borderWidth: 2,
       borderDash: [],
       borderDashOffset: 0.0,
-      pointBackgroundColor: chartColors[color],
+      pointBackgroundColor: chartColors[color % 10],
       pointBorderColor: 'rgba(255,255,255,0)',
-      pointHoverBackgroundColor: chartColors[color],
+      pointHoverBackgroundColor: chartColors[color % 10],
       pointBorderWidth: 20,
       pointHoverRadius: 4,
       pointHoverBorderWidth: 15,

@@ -32,12 +32,11 @@ export default {
     const getUnitList = computed(() => store.getters[`${measureData}/getUnitList`])
     const getChannelNames = computed(() => store.getters[`${measureData}/getChannelNames`])
     const getCount = computed(() => store.getters[`${measureData}/getCount`])
-    const getDataList = computed(() => store.getters[`${measureData}/getMeasureDataList`])
     const getLastData = computed(() => store.getters[`${measureData}/getLastData`])
     const getLastDataTime = computed(() => store.getters[`${measureData}/getLastDataTime`])
 
     const updateDataList = () => {
-      let result = store.dispatch(`${measureData}/actionMeasureDataList`, route.params.id)
+      let result = store.dispatch(`${measureData}/actionMeasureLastData`, route.params.id)
       authErrorHandle(result, router)
     }
 
@@ -60,7 +59,6 @@ export default {
       getCount,
       updateDataList,
       refresh,
-      getDataList,
       getLastData,
       getLastDataTime,
     }
