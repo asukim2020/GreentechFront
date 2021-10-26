@@ -24,10 +24,14 @@ const company = {
       async actionLogin({commit}, params) {
          try {
             const response = await login(params.id, params.pw)
+            console.log(response);
             commit('setCompanyId', response.data.companyId)
             commit('setToken', response.data.jwtToken)
+            console.log(response.data.companyId);
+            console.log(response.data.jwtToken);
             return response.data.companyId
          } catch (err) {
+            console.log(err);
             return err
          }
       },

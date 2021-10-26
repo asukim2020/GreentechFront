@@ -5,7 +5,8 @@ import axios from 'axios'
 const config = {
    // baseUrl: 'http://localhost:8080/'
    // baseUrl: 'http://172.30.1.48:8080/'
-   baseUrl: "http://3.38.61.109:8080/"
+   // baseUrl: "http://3.38.61.109:8080/"
+   baseUrl: "https://mutiscanback.link/"
 }
 
 // const agent = new https.Agent({ rejectUnauthorized: false })
@@ -24,7 +25,8 @@ function callApi(method, url, params, data) {
    }
    return axios({
       method: method,
-      url: url,
+      url: config.baseUrl + url,
+      // url: '/api/' + url,
       headers: headers,
       params: params,
       data: data
@@ -54,6 +56,7 @@ function login(id, pw) {
    return axios({
       method: 'post',
       url: config.baseUrl + 'authenticate/login',
+      // url: '/api/' + 'authenticate/login',
       headers: {},
       data: {
          username: id,
@@ -66,7 +69,7 @@ function login(id, pw) {
 function getDataLoggers(companyId) {
    return callApi(
          'get', 
-         `${config.baseUrl}dataLogger/${companyId}`,
+         `dataLogger/${companyId}`,
          null,
          null
       )
@@ -75,7 +78,7 @@ function getDataLoggers(companyId) {
 function getDataLogger(dataLoggerId) {
    return callApi(
       'get',
-      `${config.baseUrl}dataLogger`,
+      `dataLogger`,
       {dataLoggerId},
       null
    )
@@ -88,7 +91,7 @@ function getLastDatas(dataLoggerId, count) {
 
       return callApi(
          'get', 
-         `${config.baseUrl}measureData/last/${dataLoggerId}`, 
+         `measureData/last/${dataLoggerId}`, 
          param,
          null
       )
@@ -107,7 +110,7 @@ function getMeasureDataList(dataLoggerId, from, to) {
 
       return callApi(
          'get', 
-         `${config.baseUrl}measureData/${dataLoggerId}`, 
+         `measureData/${dataLoggerId}`, 
          param,
          null
       )
