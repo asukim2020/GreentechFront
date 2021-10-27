@@ -38,12 +38,11 @@ function registerMessage() {
       const title = 'Title';
       const options = {
          body: payload.data.message,
-         icon: '/firebase-logo.png',
+         icon: '/img/icons/android-chrome-192x192.png',
       };
       const notification = new Notification(title, options);
       return notification;
    });
-
 }
 
 export {
