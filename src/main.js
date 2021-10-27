@@ -3,10 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { getFcmToken, registerMessage } from './fcm/firebase'
+import Toaster from "@meforma/vue-toaster";
 import './registerServiceWorker'
 
 const app = createApp(App)
+app.use(Toaster, {
+  position: "bottom",
+});
 app.config.productionTip = false;
+app.use(router).use(store).mount('#app')
 
 if ('serviceWorker' in navigator){
   navigator.serviceWorker
@@ -14,9 +19,10 @@ if ('serviceWorker' in navigator){
     scope: "firebase-cloud-messaging-push-scope",
   })
   .then((registration) => {
-          getFcmToken(registration).then(
-        registerMessage()
-      )
+    // app.$toast.show(`Hey! I'm here`);
+    getFcmToken(registration).then(
+      registerMessage(app)
+    )
   })
   .catch((err) => {
     console.log(err);
@@ -24,5 +30,3 @@ if ('serviceWorker' in navigator){
 } else{
   console.log('service workers are not supported.');
 }
-
-app.use(router).use(store).mount('#app')
