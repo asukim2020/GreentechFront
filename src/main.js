@@ -21,7 +21,7 @@ if ('serviceWorker' in navigator){
   .then((registration) => {
     // app.$toast.show(`Hey! I'm here`);
     getFcmToken(registration).then(
-      registerMessage(app)
+      registerMessage(app, router, store)
     )
   })
   .catch((err) => {

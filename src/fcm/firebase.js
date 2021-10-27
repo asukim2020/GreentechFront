@@ -32,10 +32,22 @@ async function getFcmToken(registration) {
    return response
 }
 
-function registerMessage(app) {
+function registerMessage(app, router, store) {
    onMessage(getFcmMessaging(), (payload) => {
-      app.$toast.show(payload.data.message);
-      location.reload()
+      // app.$toast.show(payload.data.message);
+      console.log(payload);
+      let path = router.currentRoute._rawValue.matched[0].path
+      switch(path) {
+         case '/list/:id':
+            store.dispatch('dataLogger/actionDataLoggerList', router.currentRoute._rawValue.params.id)
+            break
+         case '/analyze/:id':
+            store.dispatch('measureData/actionMeasureLastData', router.currentRoute._rawValue.params.id)
+            break
+         case '/graph/:id':
+            store.dispatch('measureData/actionMeasureDataList', router.currentRoute._rawValue.params.id)
+            break
+      }
    });
 }
 
