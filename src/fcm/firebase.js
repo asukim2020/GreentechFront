@@ -35,14 +35,7 @@ async function getFcmToken(registration) {
 function registerMessage(app) {
    onMessage(getFcmMessaging(), (payload) => {
       app.$toast.show(payload.data.message);
-      // console.log('Message received. ', payload);
-      // const title = 'Title';
-      // const options = {
-      //    body: payload.data.message,
-      //    icon: '/img/icons/android-chrome-192x192.png',
-      // };
-      // const notification = new Notification(title, options);
-      // return notification;
+      location.reload()
    });
 }
 
