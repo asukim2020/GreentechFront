@@ -2,23 +2,27 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { onMessage } from "firebase/messaging";
-import { getFcmMessaging } from './fcm/firebase'
+import { getFcmToken, registerMessage } from './fcm/firebase'
+import './registerServiceWorker'
 
 const app = createApp(App)
+app.config.productionTip = false;
 
-app.config.globalProperties.$messaging = getFcmMessaging()
-
-onMessage(getFcmMessaging(), (payload) => {
-   console.log('Message received. ', payload);
-    const title = 'Title';
-    const options = {
-        body: payload.data.message,
-        icon: '/firebase-logo.png',
-    };
-    const notification = new Notification(title, options);
-    return notification;
-});
-
+if ('serviceWorker' in navigator){
+  navigator.serviceWorker
+  .register("firebase-messaging-sw.js", {
+    scope: "firebase-cloud-messaging-push-scope",
+  })
+  .then((registration) => {
+          getFcmToken(registration).then(
+        registerMessage()
+      )
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+} else{
+  console.log('service workers are not supported.');
+}
 
 app.use(router).use(store).mount('#app')

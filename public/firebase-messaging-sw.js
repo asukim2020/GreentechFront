@@ -1,9 +1,10 @@
-import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-import { getMessaging } from "firebase/messaging";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+importScripts("https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/8.2.5/firebase-messaging.js");
 
-const firebaseConfig = {
+// Initialize the Firebase app in the service worker by passing in
+// your app's Firebase config object.
+// https://firebase.google.com/docs/web/setup#config-object
+firebase.initializeApp({
    apiKey: "AIzaSyCJDWkYMFUpixPpJ3GSy7peR4oujiDDEkg",
    authDomain: "multiscan-852af.firebaseapp.com",
    projectId: "multiscan-852af",
@@ -11,19 +12,23 @@ const firebaseConfig = {
    messagingSenderId: "797646985288",
    appId: "1:797646985288:web:018d921b5ee39d4fe9e07d",
    measurementId: "G-F8TVKLC683"
-};
+});
 
-const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-const messaging = getMessaging(app);
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
 
-onBackgroundMessage(messaging, (payload) => {
-   console.log('[firebase-messaging-sw.js] Received background message ', payload);
-   const title = 'Background Message Title';
-   const options = {
-      body: payload.data.message,
-      icon: '/firebase-logo.png'
-   };
+messaging.onBackgroundMessage((payload) => {
+  console.log(
+    "[firebase-messaging-sw.js] Received background message ",
+    payload
+  );
+  // Customize notification here
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: "/firebase-logo.png",
+  };
 
-   self.registration.showNotification(title, options);
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });

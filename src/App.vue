@@ -5,13 +5,15 @@
 </template>
 <script>
 import { onMounted } from '@vue/runtime-core';
-import { getFcmToken } from './fcm/firebase'
+// import { getFcmToken, registerMessage } from './fcm/firebase'
 
 export default {
   name: 'App',
   setup() {
     onMounted(() => {
-      getFcmToken()
+      // getFcmToken().then(
+      //   registerMessage()
+      // )
     })
   }
 }

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
    apiKey: "AIzaSyCJDWkYMFUpixPpJ3GSy7peR4oujiDDEkg",
@@ -18,14 +18,36 @@ const getFcmMessaging = () => {
    return messaging
 }
 
-async function getFcmToken() {
+// async function getFcmToken() {
+//    const key = 'BNqleNyyhRe8S4lwjudnzQUmoGcZiGfZi8v9CBNZFnqgKXLWknq8Vpf__2KvIOSGIUOY3UgUlJOmztE1F85NYkU'
+//    const response = await getToken(messaging, {vapidKey: key})
+//    console.log(response);
+//    return response
+// }
+
+async function getFcmToken(registration) {
    const key = 'BNqleNyyhRe8S4lwjudnzQUmoGcZiGfZi8v9CBNZFnqgKXLWknq8Vpf__2KvIOSGIUOY3UgUlJOmztE1F85NYkU'
-   const response = await getToken(messaging, {vapidKey: key})
+   const response = await getToken(messaging, {vapidKey: key}, registration)
    console.log(response);
    return response
 }
 
+function registerMessage() {
+   onMessage(getFcmMessaging(), (payload) => {
+      console.log('Message received. ', payload);
+      const title = 'Title';
+      const options = {
+         body: payload.data.message,
+         icon: '/firebase-logo.png',
+      };
+      const notification = new Notification(title, options);
+      return notification;
+   });
+
+}
+
 export {
    getFcmMessaging,
-   getFcmToken
+   getFcmToken,
+   registerMessage
 }
