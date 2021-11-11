@@ -47,7 +47,8 @@ export default {
     data: {
       type: Object,
       required: true
-    }
+    },
+    channel: []
   },
   emits: ['reload-icon-click'],
   setup (props, {emit}) {
@@ -123,11 +124,25 @@ export default {
       }
     })
 
+    const channelNames = computed({get: () => props.channel}) 
+    // watch(channelNames, names => {
+    //   if (chart) {
+    //     for (let i=0; i<names.length; i++) {
+    //       console.log('datasets');
+    //       // console.log(chart.data.datasets);
+    //       chart.data.datasets[i].label = names[i]
+    //       console.log(chart.data.datasets[i].label);
+    //     }
+    //     chart.update(UpdateMode)
+    //   }
+    // })
+
     const reloadIconClick = () => {
       emit('reload-icon-click')
     }
 
     return {
+      channelNames,
       canvas,
       reloadIconClick
     }

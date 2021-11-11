@@ -1,4 +1,4 @@
-import { getDataLogger, getMeasureDataList, getLastDatas } from '../api'
+import { getMeasureDataList, getLastDatas } from '../api'
 // import dataLogger from './dataLogger'
 
 const measureData = {
@@ -10,7 +10,7 @@ const measureData = {
       last: [],
       lastTime: String,
       count: 2,
-      dataLogger: null
+      // dataLogger: null
    },
    getters: {
       getMeasureDataList(state) {
@@ -33,24 +33,26 @@ const measureData = {
          return state.count
       },
 
-      getUnitList(state) {
-         if (state.dataLogger == null) {
+      getUnitList() {
+         let dataLogger = JSON.parse(localStorage.getItem('dataLogger'));
+         if (dataLogger == null) {
             return []
          }
-         if (state.dataLogger.unit == "") {
+         if (dataLogger.unit == "") {
             return []
          }
-         return state.dataLogger.unit.split(',')
+         return dataLogger.unit.split(',')
       },
 
-      getChannelNames(state) {
-         if (state.dataLogger == null) {
+      getChannelNames() {
+         let dataLogger = JSON.parse(localStorage.getItem('dataLogger'));
+         if (dataLogger == null) {
             return []
          }
-         if (state.dataLogger.channelName == "") {
+         if (dataLogger.channelName == "") {
             return []
          }
-         return state.dataLogger.channelName.split(',')
+         return dataLogger.channelName.split(',')
       },
 
       getLastDataTime(state) {
@@ -68,6 +70,21 @@ const measureData = {
          let datas = dataList[dataList.length-1].data.split(',')
          let count = datas.length
 
+         let dataLogger = JSON.parse(localStorage.getItem('dataLogger'));
+         console.log('dataLogger');
+         console.log(dataLogger);
+         var channelNames = []
+         if (dataLogger != null
+            && dataLogger.channelName != "") {
+            channelNames = dataLogger.channelName.split(',')
+         }
+
+         var units = []
+         if (dataLogger != null
+            && dataLogger.unit != "") {
+            units = dataLogger.unit.split(',')
+         }
+
          for(let i = 0; i < count; i++) {
             var dataset = null
             if (state.data.datasets.length > 0) {
@@ -75,7 +92,18 @@ const measureData = {
             }
             var isHidden = false
             if (i == count -1) isHidden = true
-            datasets.push(datasetObject(i, [], dataset, isHidden))
+
+            var channelName = `CH${i+1}`
+            if (i < channelNames.length) {
+               channelName = channelNames[i]
+            }
+
+            var unit = ''
+            if (i < units.length) {
+               unit = units[i]
+            }
+
+            datasets.push(datasetObject(i, [], dataset, isHidden, channelName, unit))
          }
 
          for (let i = 0; i < dataList.length; i++) {
@@ -99,9 +127,9 @@ const measureData = {
          state.to = to
       },
 
-      setDataLogger(state, dataLogger) {
-         state.dataLogger = dataLogger
-      },
+      // setDataLogger(state, dataLogger) {
+      //    state.dataLogger = dataLogger
+      // },
 
       setLast(state, data) {
          var dataList = data.data.reverse()
@@ -148,11 +176,11 @@ const measureData = {
          }
       },
 
-      actionDataLogger({commit}, dataLoggerId) {
-         return getDataLogger(dataLoggerId)
-            .then(({ data }) => commit('setDataLogger', data))
-            .catch(e => console.log(e))
-      },
+      // actionDataLogger({commit}, dataLoggerId) {
+      //    return getDataLogger(dataLoggerId)
+      //       .then(({ data }) => commit('setDataLogger', data))
+      //       .catch(e => console.log(e))
+      // },
 
       async actionMeasureLastData({commit}, dataLoggerId) {
          try {
@@ -194,9 +222,9 @@ const chartColors = [
    '#3F51B5'
 ]
 
-const datasetObject = (color, datas, dataset, isHidden) => {
+const datasetObject = (color, datas, dataset, isHidden, channelName, unit) => {
    let data = {
-      label: `CH${color+1}`,
+      label: channelName,
       fill: false,
       borderColor: chartColors[color % 10],
       borderWidth: 2,
@@ -212,6 +240,7 @@ const datasetObject = (color, datas, dataset, isHidden) => {
       pointRadius: 4,
       data: datas,
       hidden: isHidden,
+      unit: unit
    //  tension: 0.5,
    //  cubicInterpolationMode: 'default'
    }

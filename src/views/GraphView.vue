@@ -8,14 +8,25 @@
       @submit-click="submit"
       ></select-period>
       <div>
-         <line-chart :data="getDataList" @reload-icon-click="updateDataList"/>
+         <line-chart 
+         :data="getDataList" 
+         :channel="getChannelNames"
+         @reload-icon-click="updateDataList"/>
       </div>
 
       <table class="card">
          <tr>
            <th></th>
-           <th v-for="dataset in getDataList.datasets" :key="dataset.label">
-             {{ dataset.label }}
+           <th v-for="(dataset, index) in getDataList.datasets" :key="dataset.label">
+              <p v-if="getChannelNames.length > index">{{ getChannelNames[index] }}</p>
+              <p v-else>{{ dataset.label }}</p>
+           </th>
+         </tr>
+          <tr>
+           <th></th>
+           <th v-for="(dataset, index) in getDataList.datasets" :key="dataset.label">
+             <p v-if="getUnitList.length > index">({{ getUnitList[index] }})</p>
+             <p v-else></p>
            </th>
          </tr>
          <tr v-for="(item, index) in getDataList.labels" 
@@ -48,9 +59,15 @@ export default {
     const router = useRouter()
     const route = useRoute()
     
+    const getUnitList = computed(() => store.getters[`${measureData}/getUnitList`])
+    const getChannelNames = computed(() => store.getters[`${measureData}/getChannelNames`])
     const getDataList = computed(() => store.getters[`${measureData}/getMeasureDataList`])
     const getFrom = computed(() => store.getters[`${measureData}/getFrom`])
     const getTo = computed(() => store.getters[`${measureData}/getTo`])
+
+    const updateDataLogger = () => {
+      store.dispatch(`${measureData}/actionDataLogger`, route.params.id)
+    }
 
     const updateDataList = () => {
       let result = store.dispatch(`${measureData}/actionMeasureDataList`, route.params.id)
@@ -59,6 +76,7 @@ export default {
 
     onMounted(() => {
       updateDataList()
+      updateDataLogger()
     })
 
     const setFrom = (from) => {
@@ -71,9 +89,12 @@ export default {
 
     const submit = () => {
       updateDataList()
+      // updateDataLogger()
     }
 
     return {
+      getUnitList,
+      getChannelNames,
       updateDataList,
       getDataList,
       getFrom,
@@ -111,6 +132,11 @@ td {
 
 tr:nth-child(even) {
   background-color: #E3F2FD;
+}
+
+p {
+  padding: 0px;
+  margin: 0px;
 }
 /* .hide {
     visibility: hidden !important;

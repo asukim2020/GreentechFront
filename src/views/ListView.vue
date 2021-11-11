@@ -60,7 +60,8 @@ export default {
                router.push(`/analyze/${modal.seletedItem.id}`)
                break
          }
-
+         localStorage.removeItem('dataLogger')
+         localStorage.setItem('dataLogger', JSON.stringify(modal.seletedItem))
          modal.isShow = false
       }
 

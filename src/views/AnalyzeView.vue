@@ -41,7 +41,7 @@ export default {
     }
 
     const updateDataLogger = () => {
-      store.dispatch(`${measureData}/actionDataLogger`, route.params.id)
+      // store.dispatch(`${measureData}/actionDataLogger`, route.params.id)
     }
 
     const refresh = () => {
