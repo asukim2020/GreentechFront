@@ -19,10 +19,19 @@ if ('serviceWorker' in navigator){
     scope: "firebase-cloud-messaging-push-scope",
   })
   .then((registration) => {
+    registration
     // app.$toast.show(`Hey! I'm here`);
-    getFcmToken(registration).then(
-      registerMessage(app, router, store)
-    )
+    Notification.requestPermission()
+    .then((permission) => {
+      console.log('permission ', permission)
+      if (permission !== 'granted') {
+        // alert('알림을 허용해주세요')
+      } else {
+        getFcmToken(registration).then(response =>
+          registerMessage(response, app, router, store)
+        )
+      }
+    })
   })
   .catch((err) => {
     console.log(err);

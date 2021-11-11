@@ -13,6 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const messaging = getMessaging(app)
+var fcmToken;
 
 const getFcmMessaging = () => {
    return messaging
@@ -28,25 +29,32 @@ const getFcmMessaging = () => {
 async function getFcmToken(registration) {
    const key = 'BNqleNyyhRe8S4lwjudnzQUmoGcZiGfZi8v9CBNZFnqgKXLWknq8Vpf__2KvIOSGIUOY3UgUlJOmztE1F85NYkU'
    const response = await getToken(messaging, {vapidKey: key}, registration)
-   console.log(response);
    return response
 }
 
-function registerMessage(app, router, store) {
+function registerMessage(response, app, router, store) {
+   fcmToken = response
+   console.log(fcmToken);
    onMessage(getFcmMessaging(), (payload) => {
       // app.$toast.show(payload.data.message);
-      console.log(payload);
-      let path = router.currentRoute._rawValue.matched[0].path
-      switch(path) {
-         case '/list/:id':
-            store.dispatch('dataLogger/actionDataLoggerList', router.currentRoute._rawValue.params.id)
-            break
-         case '/analyze/:id':
-            store.dispatch('measureData/actionMeasureLastData', router.currentRoute._rawValue.params.id)
-            break
-         case '/graph/:id':
-            store.dispatch('measureData/actionMeasureDataList', router.currentRoute._rawValue.params.id)
-            break
+      // console.log(payload);
+      if (payload.data.message =='update data') {
+         let path = router.currentRoute._rawValue.matched[0].path
+         switch(path) {
+            case '/list/:id':
+               // store.dispatch('dataLogger/actionDataLoggerList', router.currentRoute._rawValue.params.id)
+               break
+            case '/analyze/:id':
+               if (router.currentRoute._rawValue.params.id == payload.data.title) {
+                  store.dispatch('measureData/actionMeasureLastData', router.currentRoute._rawValue.params.id)
+               }
+               break
+            case '/graph/:id':
+               if (router.currentRoute._rawValue.params.id == payload.data.title) {
+                  store.dispatch('measureData/actionMeasureDataList', router.currentRoute._rawValue.params.id)
+               }
+               break
+         }
       }
    });
 }
@@ -54,5 +62,6 @@ function registerMessage(app, router, store) {
 export {
    getFcmMessaging,
    getFcmToken,
-   registerMessage
+   registerMessage,
+   fcmToken
 }

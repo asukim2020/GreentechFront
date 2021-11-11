@@ -3,8 +3,8 @@ import axios from 'axios'
 // import store from '../store'
 
 const config = {
-   // baseUrl: 'http://localhost:8080/'
    // baseUrl: 'http://172.30.1.48:8080/'
+   // baseUrl: 'http://localhost:8080/'
    // baseUrl: "http://3.38.61.109:8080/"
    baseUrl: "https://mutiscanback.link/"
 }
@@ -64,6 +64,15 @@ function login(id, pw) {
       },
       // httpsAgent: agent
    })
+}
+
+function uploadFcmToken(companyId, fcmToken) {
+   return callApi(
+      'post',
+      `authenticate/fcm/${companyId}`,
+      {fcmToken},
+      null
+   )
 }
 
 function getDataLoggers(companyId) {
@@ -142,6 +151,7 @@ const fillZero = (width, str) => {
 
 export {
    login,
+   uploadFcmToken,
    getDataLoggers,
    getDataLogger,
    getMeasureDataList,

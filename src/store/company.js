@@ -1,4 +1,4 @@
-import { login } from '../api'
+import { login, uploadFcmToken } from '../api'
 
 const company = {
    namespaced: true,
@@ -27,13 +27,20 @@ const company = {
             console.log(response);
             commit('setCompanyId', response.data.companyId)
             commit('setToken', response.data.jwtToken)
-            console.log(response.data.companyId);
-            console.log(response.data.jwtToken);
+            // console.log(response.data.companyId);
+            // console.log(response.data.jwtToken);
             return response.data.companyId
          } catch (err) {
             console.log(err);
             return err
          }
+      },
+
+      actionUploadFcmToken({commit}, params) {
+         commit
+         return uploadFcmToken(params.companyId, params.fcmToken)
+            .then(({ data }) => console.log(data))
+            .catch(e => console.log(e))
       },
    }
 }

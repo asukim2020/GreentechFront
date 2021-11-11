@@ -16,6 +16,7 @@
 import { reactive } from 'vue'
 import { useStore } from "vuex"
 import { useRouter } from 'vue-router'
+import { fcmToken } from '../fcm/firebase'
 
 const company = 'company'
 
@@ -31,9 +32,17 @@ export default {
       })
 
       const clickLogin = () => { 
+         console.log(fcmToken);
          store.dispatch(`${company}/actionLogin`, user)
          .then(response => {
             if (typeof(response) == "number") {
+               // actionUploadFcmToken
+               const parmas = {
+                  companyId: response,
+                  fcmToken
+               }
+               console.log("call actionUploadFcmToken");
+               store.dispatch(`${company}/actionUploadFcmToken`, parmas)
                router.push(`/list/${response}`)
             } else if (response.response) {
                console.log(response.response);
