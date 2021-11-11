@@ -86,6 +86,9 @@ export default {
         type: 'line',
         data: props.data,
         options: {
+          animation: {
+              duration: 0
+          },
           responsive: true,
           maintainAspectRatio: false,
           scales: {
@@ -99,7 +102,12 @@ export default {
           plugins: {
             legend: {
               position: 'top',
-              display: true 
+              display: true,
+              onClick: function (e, legendItem, legend) {
+                Chart.defaults.plugins.legend.onClick(e, legendItem, legend)
+                let i = legendItem.datasetIndex
+                chart.data.datasets[i].hidden = !chart.isDatasetVisible(i)
+              },
             }
           }
         }
@@ -116,9 +124,6 @@ export default {
     })
 
     const reloadIconClick = () => {
-      for (let i=0; i<chart.data.datasets.length; i++) {
-        chart.data.datasets[i].hidden = !chart.isDatasetVisible(i)
-      }
       emit('reload-icon-click')
     }
 

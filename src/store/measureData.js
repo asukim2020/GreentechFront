@@ -73,7 +73,9 @@ const measureData = {
             if (state.data.datasets.length > 0) {
                dataset = state.data.datasets[i]
             }
-            datasets.push(datasetObject(i, [], dataset))
+            var isHidden = false
+            if (i == count -1) isHidden = true
+            datasets.push(datasetObject(i, [], dataset, isHidden))
          }
 
          for (let i = 0; i < dataList.length; i++) {
@@ -192,7 +194,7 @@ const chartColors = [
    '#3F51B5'
 ]
 
-const datasetObject = (color, datas, dataset) => {
+const datasetObject = (color, datas, dataset, isHidden) => {
    let data = {
       label: `CH${color+1}`,
       fill: false,
@@ -200,6 +202,7 @@ const datasetObject = (color, datas, dataset) => {
       borderWidth: 2,
       borderDash: [],
       borderDashOffset: 0.0,
+      backgroundColor: chartColors[color % 10],
       pointBackgroundColor: chartColors[color % 10],
       pointBorderColor: 'rgba(255,255,255,0)',
       pointHoverBackgroundColor: chartColors[color % 10],
@@ -208,7 +211,7 @@ const datasetObject = (color, datas, dataset) => {
       pointHoverBorderWidth: 15,
       pointRadius: 4,
       data: datas,
-      hidden: false,
+      hidden: isHidden,
    //  tension: 0.5,
    //  cubicInterpolationMode: 'default'
    }
