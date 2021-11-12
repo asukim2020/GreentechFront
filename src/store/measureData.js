@@ -14,6 +14,8 @@ const measureData = {
    },
    getters: {
       getMeasureDataList(state) {
+         console.log('data');
+         console.log(state.data);
          return state.data
       },
 
@@ -90,8 +92,8 @@ const measureData = {
             if (state.data.datasets.length > 0) {
                dataset = state.data.datasets[i]
             }
-            var isHidden = false
-            if (i == count -1) isHidden = true
+            var isHidden = true
+            if (i == 0) isHidden = false
 
             var channelName = `CH${i+1}`
             if (i < channelNames.length) {

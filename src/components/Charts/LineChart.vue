@@ -94,10 +94,15 @@ export default {
           maintainAspectRatio: false,
           scales: {
             y: {
-              display: true
+              display: true,
+              ticks: {
+                color: 'rgb(66, 66, 66)',
+              }
             },
             x: {
-              display: true
+              ticks: {
+                color: 'rgb(66, 66, 66)',
+              }
             }
           },
           plugins: {

@@ -31,9 +31,9 @@
          </tr>
          <tr v-for="(item, index) in getDataList.labels" 
             :key="item.id">
-            <td>{{ item }}</td>
+            <td>{{getDataList.labels[getDataList.labels.length - index - 1] }}</td>
             <td v-for="dataset in getDataList.datasets" :key="dataset.label">
-              {{dataset.data[index]}}
+              {{dataset.data[getDataList.labels.length - index - 1]}}
             </td>
          </tr> 
       </table>

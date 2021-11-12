@@ -125,7 +125,7 @@ function getMeasureDataList(dataLoggerId, from, to) {
       )
       
    } else {
-         return getLastDatas(dataLoggerId, 10)
+         return getLastDatas(dataLoggerId, 20)
    }
 }
 
