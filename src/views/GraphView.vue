@@ -10,7 +10,6 @@
       <div>
          <line-chart 
          :data="getDataList" 
-         :channel="getChannelNames"
          @reload-icon-click="updateDataList"/>
       </div>
 

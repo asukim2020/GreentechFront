@@ -4,6 +4,8 @@ import LoginView from '../views/LoginView.vue'
 import ListView from '../views/ListView.vue'
 import AnalyzeView from '../views/AnalyzeView.vue'
 import GraphView from '../views/GraphView.vue'
+import FileListView from '../views/FileListView.vue'
+import DynamicGraphView from '../views/DynamicGraphView.vue'
 
 const routes = [
    {
@@ -29,6 +31,17 @@ const routes = [
       path: '/graph/:id',
       name: 'graph',
       component: GraphView
+   },
+   {
+      path: '/file/:id',
+      name: 'file',
+      component: FileListView
+   },
+   {
+      path: '/dynamic/:url',
+      name: 'dynamic',
+      component: DynamicGraphView,
+      props: true
    }
 ]
 

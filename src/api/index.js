@@ -4,9 +4,9 @@ import axios from 'axios'
 
 const config = {
    // baseUrl: 'http://172.30.1.48:8080/'
-   // baseUrl: 'http://localhost:8080/'
+   baseUrl: 'http://localhost:8080/'
    // baseUrl: "http://3.38.61.109:8080/"
-   baseUrl: "https://mutiscanback.link/"
+   // baseUrl: "https://mutiscanback.link/"
 }
 
 // const agent = new https.Agent({ rejectUnauthorized: false })
@@ -19,13 +19,23 @@ const config = {
 
 function callApi(method, url, params, data) {
    // console.log(`url: ${url}`);
+   return callApiAllUrl(
+      method,
+      config.baseUrl + url,
+      params,
+      data
+   )
+}
+
+function callApiAllUrl(method, url, params, data) {
+   // console.log(`url: ${url}`);
    let token = JSON.parse(localStorage.getItem('user'));
    const headers = {
       'Authorization': `Bearer ${token}`
    }
    return axios({
       method: method,
-      url: config.baseUrl + url,
+      url: url,
       // url: '/api/' + url,
       headers: headers,
       params: params,
@@ -106,6 +116,24 @@ function getLastDatas(dataLoggerId, count) {
       )
 }
 
+function getFileList(dataLoggerId) {
+         return callApi(
+         'get', 
+         `file/${dataLoggerId}`, 
+         null,
+         null
+      )
+}
+
+function getDynamicFile(url) {
+   return callApiAllUrl(
+      'get', 
+      url, 
+      null,
+      null
+   )
+}
+
 function getMeasureDataList(dataLoggerId, from, to) {
    if (from !== null && to !== null) {
       const param = {
@@ -155,5 +183,7 @@ export {
    getDataLoggers,
    getDataLogger,
    getMeasureDataList,
-   getLastDatas
+   getLastDatas,
+   getFileList,
+   getDynamicFile
 }

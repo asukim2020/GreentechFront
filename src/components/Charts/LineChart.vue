@@ -96,12 +96,22 @@ export default {
             y: {
               display: true,
               ticks: {
-                color: 'rgb(66, 66, 66)',
-              }
+                // color: 'rgb(66, 66, 66)',
+                font: {
+                  family: 'Helvetica',
+                  size: 14,
+                  lineHeight: 1.2,
+                },
+              },
             },
             x: {
               ticks: {
-                color: 'rgb(66, 66, 66)',
+                // color: 'rgb(66, 66, 66)',
+                font: {
+                  family: 'Helvetica',
+                  size: 14,
+                  lineHeight: 1.2,
+                },
               }
             }
           },
@@ -129,25 +139,11 @@ export default {
       }
     })
 
-    const channelNames = computed({get: () => props.channel}) 
-    // watch(channelNames, names => {
-    //   if (chart) {
-    //     for (let i=0; i<names.length; i++) {
-    //       console.log('datasets');
-    //       // console.log(chart.data.datasets);
-    //       chart.data.datasets[i].label = names[i]
-    //       console.log(chart.data.datasets[i].label);
-    //     }
-    //     chart.update(UpdateMode)
-    //   }
-    // })
-
     const reloadIconClick = () => {
       emit('reload-icon-click')
     }
 
     return {
-      channelNames,
       canvas,
       reloadIconClick
     }

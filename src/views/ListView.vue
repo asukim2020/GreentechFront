@@ -4,12 +4,14 @@
          <tr>
             <th>id</th>
             <th>name</th>
+            <th>type</th>
          </tr>
          <tr v-for="item in getDataLoggerList" 
             :key="item.id"
             v-on:click="showDialog(item)">
             <td>{{ item.id }}</td>
             <td>{{ item.modelName }}</td>
+            <td>{{ item.type }}</td>
          </tr> 
       </table>
 
@@ -44,7 +46,7 @@ export default {
       
       const modal = reactive({
          isShow: false,
-         selectList: ['그래프', '텍스트'],
+         selectList: ['그래프', '텍스트', '파일'],
          seletedItem: Object,
          header: '선택'
       })
@@ -59,6 +61,9 @@ export default {
             case 1:
                router.push(`/analyze/${modal.seletedItem.id}`)
                break
+            case 2:
+               router.push(`/file/${modal.seletedItem.id}`)
+               break
          }
          localStorage.removeItem('dataLogger')
          localStorage.setItem('dataLogger', JSON.stringify(modal.seletedItem))
@@ -66,8 +71,24 @@ export default {
       }
 
       const showDialog = (item) => {
+         switch(item.type) {
+            case "STATIC":
+               modal.selectList = ['그래프', '텍스트']
+               modal.isShow = true
+               break
+
+            case "DYNAMIC":
+               modal.seletedItem = item
+               itemClick(2)
+               break
+            
+            case "ALL":
+               modal.selectList = ['그래프', '텍스트', "파일"]
+               modal.isShow = true
+               break
+
+         }
          modal.seletedItem = item
-         modal.isShow = true
       }
 
       const dismissAlert = () => {
